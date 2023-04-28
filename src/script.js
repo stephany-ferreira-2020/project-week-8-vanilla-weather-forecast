@@ -1,3 +1,5 @@
+// Correct date and time:
+
 function formatDate(timestamp) {
   let date = new Date(timestamp)
   let hours = date.getHours()
@@ -21,7 +23,10 @@ function formatDate(timestamp) {
   return `Last updated: ${day}, ${hours}:${minutes} (local time)`
 }
 
-function displayForecast() {
+// Forecast:
+
+function displayForecast(response) {
+  console.log(response.data.daily)
   let forecastElement = document.querySelector('#forecast')
 
   let forecastHTML = `<div class="row">`
@@ -49,6 +54,14 @@ function displayForecast() {
   forecastElement.innerHTML = forecastHTML
 }
 
+function getForecast(coordinates) {
+  let apiKey = '5241f510t387b0af80ob67d9fd3b2098'
+  let unit = 'metric'
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&units=${unit}`
+  axios.get(apiUrl).then(displayForecast)
+}
+
+// Temperature and weather info section
 function displayTemperature(response) {
   let temperatureElement = document.querySelector('.temperature')
   let cityElement = document.querySelector('.cityName')
@@ -71,6 +84,8 @@ function displayTemperature(response) {
     `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   )
   weatherIconElement.setAttribute('alt', response.data.condition.description)
+
+  getForecast(response.data.coordinates)
 }
 
 function search(city) {
@@ -86,6 +101,7 @@ function handleSubmit(event) {
   search(cityInputElement.value)
 }
 
+// Unit conversion:
 function displayFahrenheitTemperature(event) {
   event.preventDefault()
   let temperatureElement = document.querySelector('.temperature')
@@ -172,6 +188,3 @@ currentLocationButton.addEventListener('click', (event) => {
 
 // using Braga as a default city
 search('Braga')
-
-//
-displayForecast()
