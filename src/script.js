@@ -21,6 +21,34 @@ function formatDate(timestamp) {
   return `Last updated: ${day}, ${hours}:${minutes} (local time)`
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector('#forecast')
+
+  let forecastHTML = `<div class="row">`
+  let days = ['Thu', 'Fri', 'Sat', 'Sun']
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-2">
+              <div class="weather-forecast-date">${day}</div>
+              <img
+                class="weather-forecast-icon"
+                src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/broken-clouds-day.png"
+                alt=""
+                width="70"
+              />
+              <div class="weather-forecast-temperatures">
+                <span class="weather-forecast-max">18º</span>
+                <span class="weather-forecast-min">12º</span>
+              </div>
+            </div>`
+  })
+
+  forecastHTML = forecastHTML + `</div>`
+
+  forecastElement.innerHTML = forecastHTML
+}
+
 function displayTemperature(response) {
   let temperatureElement = document.querySelector('.temperature')
   let cityElement = document.querySelector('.cityName')
@@ -144,3 +172,6 @@ currentLocationButton.addEventListener('click', (event) => {
 
 // using Braga as a default city
 search('Braga')
+
+//
+displayForecast()
