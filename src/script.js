@@ -170,6 +170,8 @@ currentLocationButton.addEventListener('click', (event) => {
         'alt',
         response.data.condition.description
       )
+
+      getForecast(response.data.coordinates)
     }
 
     axios.get(`${apiUrl}`).then(showTemperature)
